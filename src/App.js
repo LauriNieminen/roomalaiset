@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Form from 'react-bootstrap/Form'
+import React, { useState } from 'react'
+import roomalaiset from './roomalaiset'
 
-function App() {
+const App = () => {
+  const [input, setInput] = useState('')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container" style={{ maxWidth: "600px", textAlign:"center",marginTop: "5rem"}} >
+      <h3>Syötä roomalainen numero</h3>
+      <Form style={{ marginTop: "2.5rem"}}>
+        <Form.Control 
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          type="text"
+          placeholder="MMXIV" 
+          isInvalid={input.length !== 0 && roomalaiset.transform(input) === -1} />
+        <Form.Control.Feedback type="invalid">Syötä validi roomalainen numero</Form.Control.Feedback>
+      </Form>
+      {roomalaiset.transform(input)}
     </div>
-  );
+    )
 }
 
 export default App;
