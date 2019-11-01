@@ -17,7 +17,7 @@ const App = () => {
           isInvalid={input.length !== 0 && roomalaiset.transform(input) === -1} />
         <Form.Control.Feedback type="invalid">Syötä validi roomalainen numero</Form.Control.Feedback>
       </Form>
-      {roomalaiset.transform(input)}
+      <h4 style={{ marginTop: "2.5rem"}}>Numero kymmenlukuna: {roomalaiset.transform(input) !== -1 ? roomalaiset.transform(input) : ''}</h4>
     </div>
     )
 }

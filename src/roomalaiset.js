@@ -42,9 +42,16 @@ const verifyInput = (counts) => {
     return false
   }
 
-  // check that the number is in a simple form e.g. no xxixixix or other loosely additive forms
-  // more accurately, check that each positive value is larger than the sum of everything right of it
-  if (true === false) {
+  /*check that the number is in a simple form e.g. no xxixixix or other loosely additive forms
+    more accurately, check that each positive value is larger than the sum of everything right of it
+    this goes beyond the scope of the spec (the wikipedia page) and probably requires a definition of the simplest form for all roman numerals */
+  if (!tail.every((char, index) => {
+    if(char.sign === 1) {
+      return true
+    } else {
+      return counts[index].value > tail.slice(index).map(char => char.value*char.count*char.sign).reduce((sum, value) => sum + value)
+    }
+  })) {
     return false
   }
 
@@ -67,12 +74,12 @@ const transform = (str) => {
       sign: 1
     }
   ))
-  
-  if (!verifyInput(counts)) {
+  const signedCounts = inferSigns(counts)
+  if (!verifyInput(signedCounts)) {
     return -1
   }
 
-  const signedCounts = inferSigns(counts)
+  
   return signedCounts.reduce((acc, count) => acc + count.count*count.value*count.sign, 0)
 
 }
