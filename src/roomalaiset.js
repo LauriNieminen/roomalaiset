@@ -42,13 +42,21 @@ const verifyInput = (counts) => {
     return false
   }
 
+  // check that there is no adjacent negative numerals e.g. no iiix = 7
+  if (counts.some(count => count.sign === -1 && count.count > 1)) {
+    return false
+  }
+
   /*check that the number is in a simple form e.g. no xxixixix or other loosely additive forms
-    more accurately, check that each positive value is larger than the sum of everything right of it
-    this goes beyond the scope of the spec (the wikipedia page) and probably requires a definition of the simplest form for all roman numerals */
+    more accurately, check that each rightmost positive in a sequence of positive values with the same numeral is larger than the sum of everything right of it
+    this goes beyond the scope of the spec (the wikipedia page) and probably requires a definition of the simplest form for all roman numerals 
+    
+    TL;DR ordered numbers reduced to the simplest form, no XIXIX or ivxlcdm*/
   if (!tail.every((char, index) => {
     if(char.sign === 1) {
       return true
     } else {
+      // the rightmost p
       return counts[index].value > tail.slice(index).map(char => char.value*char.count*char.sign).reduce((sum, value) => sum + value)
     }
   })) {
